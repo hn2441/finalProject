@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<context:component-scan base-package="com.itbank.springProject.db" />
+	<context:component-scan base-package="com.itbank.springProject.rew.controller" />
+	<context:component-scan base-package="com.itbank.springProject.won.controller" />
+	<context:component-scan base-package="com.itbank.springProject.kim.controller" />
+	<context:component-scan base-package="com.itbank.springProject.joe.controller" />
+	<!-- DataSource config -->
+	<context:property-placeholder location="classpath:db.properties" />
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driver}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+		<property name="maxActive" value="${jdbc.count}"></property>
+	</bean>
+	<!-- /.DataSource config -->
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis_DTO_config.xml" />
+		<!-- 상위는 DTO를 설정한 xml을 등록하는 과정 -->
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:sql/placeCart_SQL.xml</value>
+				<value>classpath:sql/plan_SQL.xml</value>
+				<value>classpath:sql/member_SQL.xml</value>
+				<value>classpath:sql/placeReq_SQL.xml</value>
+				<value>classpath:sql/attractions_SQL.xml</value>
+				<value>classpath:sql/ShareProject_SQL.xml</value>
+				<value>classpath:sql/comment_SQL.xml</value>
+			</list>
+			<!-- 상위는 SQL를 설정한 xml을 등록하는 과정 -->
+		</property>
+	</bean>
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- <bean id="mongoClientOptions" -->
+	<!-- class="org.springframework.data.mongodb.core.MongoClientOptionsFactoryBean"> -->
+	<!-- <property name="connectionsPerHost" value="3" /> -->
+	<!-- <property name="connectTimeout" value="1000" /> -->
+	<!-- <property name="maxWaitTime" value="1500" /> -->
+	<!-- <property name="socketKeepAlive" value="true" /> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="mongo" -->
+	<!-- class="org.springframework.data.mongodb.core.MongoClientFactoryBean"> -->
+	<!-- <property name="host" value="localhost" /> -->
+	<!-- <property name="port" value="27017" /> -->
+	<!-- <property name="mongoClientOptions" ref="mongoClientOptions" /> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="simpleMongoDbFactory" -->
+	<!-- class="org.springframework.data.mongodb.core.SimpleMongoDbFactory"> -->
+	<!-- <constructor-arg name="mongoClient" ref="mongo" /> -->
+	<!-- <constructor-arg name="databaseName" value="groupware" /> -->
+	<!-- </bean> -->
+	
+<!-- 	<bean id="mongo" class="com.mongodb.MongoClient"> -->
+<!-- 	<constructor-arg name="host" value="localhost" ></constructor-arg> -->
+<!-- 	<constructor-arg name="port" value="27017"></constructor-arg> -->
+<!-- 	</bean> -->
+	
+<!-- 	<bean id="simpleMongoDbFactory" -->
+<!-- 	class="org.springframework.data.mongodb.core.SimpleMongoDbFactory"> -->
+<!-- 	<constructor-arg name="mongoClient" ref="mongo" /> -->
+<!-- 	<constructor-arg name="databaseName" value="tag" /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate"> -->
+<!-- 	<constructor-arg name="mongoDbFactory" ref="simpleMongoDbFactory"></constructor-arg> -->
+<!-- 	</bean> -->
+
+
+</beans>
+
+
+

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Plan"> 
+	
+	<select id="selectAllById" parameterType="PlanDTO" resultType="PlanDTO">
+	select * from PLAN 
+	where MID=#{mid} and PTITLE=#{ptitle} 
+	order by NUM
+	</select>
+	
+	<select id="selectAllPid" parameterType="ShareProjectDTO" resultType="PlanDTO">
+	select mid,ptitle,pid,mainImg from PLAN 
+	where  ptitle=#{ptitle} and mid=#{mid} 
+	</select>
+	
+	<select id="selectPlanNameAll" parameterType="String" resultType="String">
+	select distinct PTITLE  from PLAN 
+	where MID=#{mid}
+	order by PTITLE
+	</select>
+	
+	<insert id="insertProjectData" parameterType="PlanDTO">
+	insert into PLAN values(
+	#{mid},
+	#{ptitle},
+	#{title},
+	#{content},
+	#{latitude},
+	#{longitude},
+	#{way},
+	#{mainImg},
+	#{num},
+	#{distance},
+	#{detail},
+	#{pid})
+	</insert>
+	
+	<delete id="deleteAllById"  parameterType="PlanDTO">
+	delete from PLAN where mid = #{mid} and ptitle=#{ptitle}
+	</delete>
+	
+</mapper>
+

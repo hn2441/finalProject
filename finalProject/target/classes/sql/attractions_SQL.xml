@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="attractions">
+
+	 <select id="select" parameterType="String" resultType="attrDTO">
+		SELECT * FROM ATTRACTIONS WHERE pid = #{value}
+	</select>
+	
+	 <select id="selectCon" parameterType="String" resultMap="rs">
+		SELECT distinct city FROM ATTRACTIONS WHERE continent = #{value}
+	</select>
+  
+	 <select id="selectCity" parameterType="String" resultMap="rs">
+		SELECT distinct category FROM ATTRACTIONS WHERE city = #{value}
+	</select>
+  
+  	<select id="selectThree" parameterType="String" resultMap="rs">
+		SELECT * FROM ATTRACTIONS WHERE continent = #{continent} and  city = #{city} and category = #{category}
+	</select>
+  
+  	<select id="selectSecond" parameterType="String" resultMap="rs">
+		SELECT * FROM ATTRACTIONS WHERE continent = #{continent} and  city = #{city} 
+	</select>
+  
+  	<select id="selectFirst" parameterType="String" resultMap="rs">
+		SELECT * FROM ATTRACTIONS WHERE continent = #{continent} 
+	</select>
+  
+  	<select id="searchSelect" parameterType="String" resultMap="rs">
+  		SELECT * FROM ATTRACTIONS WHERE contentElements LIKE '%'||#{value}||'%'
+  	</select>
+  
+	<resultMap type="attrDTO" id="rs">
+		<result property="continent" column="continent" />
+		<result property="city" column="city" />
+		<result property="pid" column="pid" />
+		<result property="mainImg" column="mainImg" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="contentElements" column="contentElements" />
+		<result property="findWay" column="findWay" />
+		<result property="longitude" column="longitude" />
+		<result property="latitude" column="latitude" />
+		<result property="category" column="category" />
+		<result property="star" column="star" />
+	</resultMap>
+		
+	<insert id="insert" parameterType="attrDTO">
+		insert into ATTRACTIONS values(#{continent},#{city},#{pid},#{mainImg},#{title},#{content},#{contentElements},#{findWay},#{longitude},#{latitude},#{category},#{star})
+	</insert>
+		
+	<select id="selectAll" resultMap="rs">
+		SELECT * FROM ATTRACTIONS
+	</select>
+	
+	<select id="selectImg" parameterType="String" resultType="attrDTO">
+		SELECT * FROM ATTRACTIONS WHERE MAINIMG = #{value}
+	</select>
+
+	<update id="starUpdate" parameterType="attrDTO">
+		update ATTRACTIONS set star = #{star} where pid = #{pid}
+	</update>
+
+
+</mapper>
